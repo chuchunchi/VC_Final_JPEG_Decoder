@@ -1,4 +1,5 @@
 from baseline import BaselineJPEGDecoder
+import verify
 from progressive import ProgressiveJPEGDecoder
 import numpy as np
 import os
@@ -32,6 +33,8 @@ def decode_image(filename: str):
         decoded_image = decoder.decode()
         save_image(decoded_image, output_path)
         print(f"Successfully decoded to: {output_path}")
+        # verification
+        verify.verify_decoder(input_path, output_path)
         return True
     except Exception as e:
         print(f"Error during decoding: {str(e)}")
