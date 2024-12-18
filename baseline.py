@@ -2,16 +2,8 @@ import numpy as np
 from typing import List, Tuple, Dict, BinaryIO
 from collections import defaultdict
 import math
+from codec import Zigzag
 
-# Zigzag Order for traversing 8x8 blocks
-zigzag = [(0, 0), (0, 1), (1, 0), (2, 0), (1, 1), (0, 2), (0, 3), (1, 2),
-          (2, 1), (3, 0), (4, 0), (3, 1), (2, 2), (1, 3), (0, 4), (0, 5),
-          (1, 4), (2, 3), (3, 2), (4, 1), (5, 0), (6, 0), (5, 1), (4, 2),
-          (3, 3), (2, 4), (1, 5), (0, 6), (0, 7), (1, 6), (2, 5), (3, 4),
-          (4, 3), (5, 2), (6, 1), (7, 0), (7, 1), (6, 2), (5, 3), (4, 4),
-          (3, 5), (2, 6), (1, 7), (2, 7), (3, 6), (4, 5), (5, 4), (6, 3),
-          (7, 2), (7, 3), (6, 4), (5, 5), (4, 6), (3, 7), (4, 7), (5, 6),
-          (6, 5), (7, 4), (7, 5), (6, 6), (5, 7), (6, 7), (7, 6), (7, 7)]
 
 # Class to represent a Huffman Table
 class HuffmanTable:
@@ -63,6 +55,9 @@ class BaselineJPEGDecoder:
         self.sof = None
         self.idct_matrix = self._build_idct_matrix()
         self.scan_data = None
+        Zigzag.set_zigzag(8)
+        self.zigzag = Zigzag.get_zigzag()
+
 
     def decode(self) -> np.ndarray:
         """
@@ -210,7 +205,7 @@ class BaselineJPEGDecoder:
 
                                         dct_matrix = [[0 for _ in range(8)] for _ in range(8)]
                                         for i, coeff in enumerate(dct_coeffs):
-                                            row, col = zigzag[i]
+                                            row, col = self.zigzag[i]
                                             dct_matrix[row][col] = coeff * quant_table[row][col]
 
                                         for y in range(8):
@@ -370,7 +365,7 @@ class BaselineJPEGDecoder:
 
             for i in range(64):
                 element = int.from_bytes(file.read(element_bytes), byteorder="big")
-                row, col = zigzag[i]
+                row, col = self.zigzag[i]
                 quant_table.table[row][col] = element
 
             quant_tables.append(quant_table)
