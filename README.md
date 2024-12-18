@@ -61,3 +61,18 @@ VC_FINAL_JPEG_DECODER/
 - codec.py: Generates the zigzag pattern used in the decoding process.
 - main.py: The entry point of the program. Handles arguments and calls the JPEG decoder.
 - verify.py: Verifies the decoded image by comparing it to the reference image decoded using Pillow. Outputs comparison metrics such as error rates.
+
+
+### Results
+
+
+| Image | fish.jpeg | car.jpeg |
+| -------- | -------- | -------- |
+| MAE      | 55.858566 | 77.129160 | 
+| MSE        | 0.402709  | 2.388816 | 
+| RMSE       | 0.634594  | 1.545580 |
+| PSNR       | 52.080890 | 44.284812 | 
+| SSIM       | 0.996752  | 0.995778 |
+| Red Channel MAE    | 59.840596  | 81.042063 | 
+| Green Channel MAE  | 39.474734  | 47.361250 | 
+| Blue Channel MAE   | 68.260368  | 102.984167 |
