@@ -1,6 +1,5 @@
 import numpy as np
 from PIL import Image
-import os
 from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import peak_signal_noise_ratio as psnr
 
