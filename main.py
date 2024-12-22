@@ -4,6 +4,7 @@ import os
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 def decode_image(filename: str):
     input_path = os.path.join('inputs', filename)
@@ -19,7 +20,10 @@ def decode_image(filename: str):
     decoder = BaselineJPEGDecoder(input_path)
 
     try:
+        start_time = time.time()
         decoded_image = decoder.decode()
+        duration = time.time() - start_time
+        print(f"Decoding time: {duration:.2f} seconds")
         plt.imshow(decoded_image)
         plt.show()
         save_image(decoded_image, output_path)
